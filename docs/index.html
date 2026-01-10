@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Spectral Perspective on SCBF</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- GLOBAL VARIABLES --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --link-color: #0066cc;
+            --button-bg: #444444;
+            --button-hover: #000000;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --max-width: 800px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- LAYOUT --- */
+        .wrapper {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* --- HEADER --- */
+        header {
+            margin-bottom: 3.5rem;
+            text-align: left;
+        }
+
+        header div.title_block {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 1rem;
+        }
+
+        h1.title {
+            font-size: 2.25rem;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #111;
+        }
+
+        h1.title small {
+            font-size: 1.5rem;
+            color: #111;
+        }
+
+        .meta-data {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        /* Clean Author List */
+        .authors {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .authors a {
+            color: #111;
+            text-decoration: none;
+            margin-right: 0px;
+            font-weight: 500;
+        }
+
+        .authors sup {
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+        
+        .authors a:hover {
+            text-decoration: underline;
+        }
+
+        .affiliations {
+            font-size: 0.95rem;
+            color: #666;
+            display: block;
+        }
+
+        /* --- SIMPLE BUTTONS --- */
+        .links-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--button-bg);
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: var(--button-hover);
+        }
+
+        /* --- MAIN CONTENT --- */
+        main h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #111;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        main h3 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        main p {
+            margin-bottom: 1.2rem;
+            color: #444;
+        }
+
+        /* Links in body text */
+        main a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        main a:hover {
+            text-decoration: underline;
+        }
+
+        /* Images/Videos */
+        main img, main video {
+            /* width: 100%; */
+            height: auto;
+            border-radius: 4px;
+            margin: 1.5rem 0 0.5rem 0;
+            display: block;
+            max-width: 100%;
+            align-content: center;
+        }
+
+        .caption {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        /* --- BIBTEX --- */
+        pre {
+            background: #f4f4f4;
+            padding: 1.2rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        footer {
+            text-align: right;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <header>
+            <div class="title_block">
+                <div class="logo">
+                    <svg width="80" height="80" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(0, 0), scale(1.0, 0.95)">
+                            <path d="M18 20 Q41 28 64 10 Q87 28 110 20 V60 C110 105 64 124 64 124 C64 124 18 105 18 60 V20Z" fill="#FFFFFF" stroke="#c55" stroke-width="12" 
+                            stroke-linejoin="round"/>
+                        </g>
+                        <g transform="translate(-5, -1)">
+                            <path d="M60 12 C 60 12, 72 12, 78 28 L 98 105" stroke="white" stroke-width="24" stroke-linecap="butt"/>
+                            <path d="M80 45 L 42 103" stroke="white" stroke-width="24" stroke-linecap="butt"/>
+                            <circle cx="60" cy="12" r="12" fill="white"/>
+                            <rect x="25.8" y="92.2" width="26" height="18" fill="white"/>
+                            <rect x="86" y="92.2" width="26" height="18" fill="white"/>
+                            
+                            <path d="M60 12 C 60 12, 72 12, 78 28 L 98 105" stroke="#0F172A" stroke-width="16" stroke-linecap="butt" stroke-linejoin="round"/>
+                            <path d="M80 45 L 42 103" stroke="#0F172A" stroke-width="16" stroke-linecap="butt" stroke-linejoin="round"/>
+                            
+                            <rect x="31" y="95.2" width="18" height="12" fill="#0F172A"/>
+                            <rect x="90" y="95.2" width="18" height="12" fill="#0F172A"/>
+                            <circle cx="60" cy="12" r="8" fill="#0F172A"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="title">
+                    <h1 class="title">EigenSafe: <small>A Spectral Framework for Learning-Based Probabilistic Safety Assessment</small></h1>
+                </div>
+            </div>
+
+            <div class="meta-data">
+                <div class="authors">
+                    <a href="#">Anonymous Authors</a><!-- <sup>1</sup> -->
+                </div>
+                <span class="affiliations">
+                    <!-- <sup>1</sup>Anonymous Affiiation 1 &nbsp; 
+                    <sup>2</sup>Anonymous Affiiation 2 -->
+                </span>
+            </div>
+
+            <div class="links-container">
+                <a href="#" class="btn"><i class="fas fa-file-pdf"></i> Paper</a>
+                <!-- <a href="#" class="btn"><i class="ai ai-arxiv"></i> arXiv</a> -->
+                <!-- <a href="#" class="btn"><i class="fab fa-github"></i> Code</a> -->
+                <!-- <a href="#" class="btn"><i class="fas fa-play"></i> Video</a> -->
+            </div>
+        </header>
+
+        <main>
+            <video src="/files/cheetah.mp4" autoplay muted loop playsinline preload="auto" alt="cheetah"></video>
+            <p class="caption"><strong>Figure 1.</strong> This cheetah learns to slide on its knees using EigenSafe. </p>
+
+            <h2>Abstract</h2>
+            <p>
+                We present a framework for synthesizing a valid Stochastic Control Barrier Function (SCBF) through the lens of linear operator theory. 
+                By analyzing the Koopman-like operator associated with the evolution of the system's safety probability, we find that the dominant eigenfunction of this operator serves as a natural SCBF.
+            </p>
+            <p>
+                The values of the dominant eigenfunction explicitly reflect the long-term safety level of the queried state, making it an SCBF with physically interpretable values. We also propose the power-policy iteration algorithm, which provides a practical way of jointly computing the dominant eigenfunction and the backup policy.
+            </p>
+
+            <h2>Methodology</h2>
+            <p>
+                Our approach shifts the perspective from solving Partial Differential Equations (PDEs) to spectral analysis of linear operators. 
+            </p>
+            
+            <h3>The Koopman-like Operator</h3>
+            <p>
+                We define a linear operator $\mathcal{K}$ that describes the evolution of safety probability. The SCBF condition is derived from the spectral properties of this operator:
+            </p>
+            <p style="text-align: center; padding: 10px; background-color: #fcfcfc;">
+                $$ \mathcal{K}[\phi](x) = \lambda \phi(x) $$
+            </p>
+            <p>
+                where $\phi(x)$ is the dominant eigenfunction and $\lambda$ corresponds to the decay rate of safety probability.
+            </p>
+
+            <h2>Results</h2>
+            <p>
+                We validated the method on a Wing-in-Ground (WIG) aircraft simulation, where ground effect creates complex aerodynamic interactions.
+            </p>
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="WIG Simulation Result">
+            <p class="caption"><strong>Figure 2.</strong> $XYDFkjabij$ Iso-surface of the computed SCBF for the WIG aircraft. The blue volume represents the safe flight envelope.</p>
+        </main>
+
+        <h2>BibTeX</h2>
+        <pre><code>@article{rss2026eigensafe,
+    title={EigenSafe: A Spectral Framework for Learning-Based Probabilistic Safety Assessment},
+    author={Anonymous},
+    journal={arXiv preprint arXiv:2601.00000},
+    year={2026}
+}</code></pre>
+
+        <footer>
+            <p>EigenSafe project page</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
