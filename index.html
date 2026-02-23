@@ -11,8 +11,20 @@
     
       gtag('config', 'G-R62SS642J0');
     </script>
+    <script>
+        function showVideo(videoId) {
+            document.getElementById('rl_videos').querySelectorAll('div').forEach(div => div.style.display = 'none');
+            document.getElementById(videoId).style.display = 'block';
+            document.getElementById('video_selector').querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(videoId + '-btn').classList.add('active');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            showVideo('cheetahlow'); // Show the first video by default
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/files/eigensafe_favicon.png"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <title>EigenSafe: A Spectral Framework for Safety Assessment</title>
@@ -63,16 +75,29 @@
             margin-bottom: 15px; 
             font-size: 2.2em; 
             line-height: 1.2; 
-            color: #111;
+            color: #000;
         }
         
         h2 { 
-            border-bottom: 2px solid #eaeaea; 
-            padding-bottom: 10px; 
+            border-bottom: 1px solid #999; 
+            padding-bottom: 5px; 
             margin-top: 50px; 
             margin-bottom: 20px;
-            color: #444; 
+            color: #111; 
             text-align: left;
+        }
+
+        h3 {
+            color: #444;
+        }
+
+        code {
+            /* background-color: #f0f0f0;  */
+            padding: 2px 2px; 
+            border-radius: 4px; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 1em;
+            font-style: normal;
         }
 
         a { 
@@ -113,7 +138,7 @@
             justify-content: flex-start;
         }
         
-        .btn { 
+        .btn {
             background-color: #333; 
             color: white; 
             padding: 10px 20px; 
@@ -124,6 +149,50 @@
             transition: background 0.3s;
         }
         .btn:hover { background-color: #555; }
+
+        #video_selector {
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+            /* center-align video selector buttons */
+            justify-content: center;
+        }
+        #video_selector .btn {
+            background-color: #eee; 
+            color: #333; 
+            padding: 8px 16px; 
+            font-size: 0.9em;
+        }
+        #video_selector .btn:hover {
+            background-color: #ccc;
+        }
+        #video_selector .btn.active {
+            background-color: #333; 
+            color: white;
+        }
+        #video_selector .btn.active:hover {
+            background-color: #555; 
+            color: white;
+        }
+
+        .rl_item {
+            border: 1px solid #555;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 0.95em;
+        }
+        .rl_item h3 {
+            margin-top: 0;
+            margin-left: 0px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .rl_item h3 code {
+            background-color: transparent;
+            padding: 0;
+            font-weight: bold;
+        }
 
         /* Media & Captions */
         .teaser-video { 
@@ -296,7 +365,7 @@
         
         <h3>The Dominant Eigenfunction as a Calibrated Safety Critic</h3>
 
-        <p>The evolution of safety probability follows a dynamic programming principle, where the safety probability at the current time step is the expection of the next-step safety probability. We frame this recursive update as a linear operator acting on functions of state-action pairs. The system's asymptotic safety behavior is described by its dominant eigenpair, yielding a metric that is calibrated to the true safety probability.</p>
+        <p>The evolution of safety probability follows a dynamic programming principle, where the safety probability at the current time step is the expection of the next-step safety probability. We frame this recursive update as a linear operator acting on functions of state-action pairs. <em>The system's asymptotic safety behavior is described by its dominant eigenpair</em>, yielding a metric that is calibrated to the true safety probability.</p>
         
         <div style="background-color: #f8f9fa; padding: 25px; border-radius: 4px; border: 1px solid #eee; margin-bottom: 30px;">
             
@@ -340,10 +409,81 @@
             & \quad \quad {} + W_n \cdot \underbrace{\left(\max_{(x,u,\cdot) \in \mathcal{D}} \psi(x,u) - 1 \right)^2}_{\text{Normalization Loss}}
             \end{aligned} $$
         </div>
+
+        <p>
+            The eigenpair loss term enforces the eigenfunction to satisfy the eigenvalue equation, and the normalization loss prevents trivial solutions by constraining the maximum value of $\psi$ to be 1. The learned eigenpair can be used as a <em>calibrated safety critic</em> for policy optimization or test-time safety filtering.
+        </p>
     </section>
 
     <section>
         <h2>Application 1: Safe Reinforcement Learning</h2>
+        <p>
+            We optimize a policy that maximizes the expected discounted sum of rewards subject to a spectral constraint on the eigenvalue ($\gamma_\pi \geq \gamma_{target}$), ensuring the policy remains <em>safer</em> than a specified threshold. We validate this approach in four (customized) gym environments: <code>CheetahLow</code>, <code>HopperHigh</code>, <code>LunarLanderHard</code>, and <code>AntBall</code>.
+        </p>
+
+        <p>
+            We compare with three baselines: (1) <a href="https://arxiv.org/abs/1801.01290"><em>Vanilla SAC (Haarnoja et al., ICML 2018)</em></a> where the agent optimizes reward without any safety consideration, (2) <a href="https://arxiv.org/abs/2309.13528"><em>RESPO (Ganai et al., NeurIPS 2023)</em></a> which uses a reachability value function and Lagrange multipliers, and (3) <a href="https://arxiv.org/abs/2305.14154"><em>EFPPO (So et al., RSS 2023)</em></a> which reformulates the safe RL problem into an epigraph form.
+            </ol>
+        </p>
+
+        <div class="grid-container" id="rl_videos">
+            <div class="rl_item" id="cheetahlow">
+                <h3><code>CheetahLow</code></h3>
+                <p>
+                    The <code>CheetahLow</code> environment is a modified version of the standard <a href="https://gymnasium.farama.org/environments/mujoco/half_cheetah/"><code>HalfCheetah</code></a> environment where the agent receives reward based on its forward velocity only. The safety constraint is defined as maintaining the height of the tors obelow a certain threshold.
+                <div class="media">
+                    <video width="100%" height="auto" nocontrols autoplay loop muted>
+                        <source src="/files/cheetah_low.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <span class="figure-caption">
+                    <strong>Video.</strong> HopperHigh environment. The red line indicates the unsafe region.
+                </span>
+            </div>
+            <div class="rl_item" id="hopperhigh">
+                <div class="media">
+                    <video width="100%" height="auto" nocontrols autoplay loop muted>
+                        <source src="/files/ant_ball.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <span class="figure-caption">
+                    <strong>Video.</strong> AntBall environment. The red ball is the target, and the blue ball is the unsafe region.
+                </span>
+            </div>
+            <div class="rl_item" id="lunarlanderhard">
+                <div class="media">
+                    <video width="100%" height="auto" nocontrols autoplay loop muted>
+                        <source src="/files/lunar_lander.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <span class="figure-caption">
+                    <strong>Video.</strong> <code>LunarLanderHard</code> environment. The red line indicates the unsafe region.
+                </span>
+            </div>
+            <div class="rl_item" id="antball">
+                <div class="media">
+                    <video width="100%" height="auto" nocontrols autoplay loop muted>
+                        <source src="/files/ant_ball.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <span class="figure-caption">
+                    <strong>Video.</strong> <code>LunarLanderHard</code> environment. The red line indicates the unsafe region.
+                </span>
+            </div>
+        </div>
+
+
+        <div id="video_selector">
+            <button class="btn" id="cheetahlow-btn" onclick="showVideo('cheetahlow')"><code>CheetahLow</code></button>
+            <button class="btn" id="hopperhigh-btn" onclick="showVideo('hopperhigh')"><code>HopperHigh</code></button>
+            <button class="btn" id="lunarlanderhard-btn" onclick="showVideo('lunarlanderhard')"><code>LunarLanderHard</code></button>
+            <button class="btn" id="antball-btn" onclick="showVideo('antball')"><code>AntBall</code></button>
+        </div>
+
     </section>
 
     <section>
