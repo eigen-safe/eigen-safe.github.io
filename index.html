@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- begin Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R62SS642J0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -11,9 +10,11 @@
     
       gtag('config', 'G-R62SS642J0');
     </script>
+    <!-- end Google tag -->
+
     <script>
         function showVideo(videoId) {
-            document.getElementById('rl_videos').querySelectorAll('div').forEach(div => div.style.display = 'none');
+            document.getElementById('rl_videos').querySelectorAll('div.rl_item').forEach(div => div.style.display = 'none');
             document.getElementById(videoId).style.display = 'block';
             document.getElementById('video_selector').querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
             document.getElementById(videoId + '-btn').classList.add('active');
@@ -27,258 +28,8 @@
     <link rel="icon" type="image/png" href="/files/eigensafe_favicon.png"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="/style.css">
     <title>EigenSafe: A Spectral Framework for Safety Assessment</title>
-    <style>
-        /* General Reset */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            max-width: 960px; 
-            margin: 0 auto; 
-            padding: 40px 20px; 
-        }
-        
-        /* HEADER LAYOUT - LEFT ALIGNED */
-        header { 
-            display: flex; 
-            align-items: flex-start; /* Aligns logo with top of title */
-            justify-content: flex-start; /* Pushes everything to the left */
-            gap: 30px; 
-            margin-bottom: 40px; 
-            flex-wrap: nowrap; /* Keep side-by-side on desktop */
-        }
-        
-        .logo-container {
-            flex: 0 0 140px; /* Fixed width */
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border: 2px dashed #ccc;
-            color: #888;
-            font-weight: bold;
-            font-size: 0.9em;
-            text-align: center;
-        }
-
-        .header-content {
-            flex: 1;
-            text-align: left; /* Strict left alignment */
-        }
-
-        /* Typography */
-        h1 { 
-            margin-top: 0;
-            margin-bottom: 15px; 
-            font-size: 2.2em; 
-            line-height: 1.2; 
-            color: #000;
-        }
-        
-        h2 { 
-            border-bottom: 1px solid #999; 
-            padding-bottom: 5px; 
-            margin-top: 50px; 
-            margin-bottom: 20px;
-            color: #111; 
-            text-align: left;
-        }
-
-        h3 {
-            color: #444;
-        }
-
-        code {
-            /* background-color: #f0f0f0;  */
-            padding: 2px 2px; 
-            border-radius: 4px; 
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 1em;
-            font-style: normal;
-        }
-
-        a { 
-            color: #0066cc; 
-            text-decoration: none; 
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        .authors { 
-            margin-bottom: 10px; 
-            font-size: 1.1em; 
-            color: #000; 
-            text-align: left;
-        }
-        
-        .affiliations { 
-            color: #666; 
-            font-size: 0.95em; 
-            margin-bottom: 20px; 
-            text-align: left;
-        }
-
-        .venue {
-            color: #000;
-            font-size: 1.1em; 
-            margin-bottom: 20px; 
-            text-align: left;
-        }
-
-        /* Buttons - Left Aligned */
-        .links { 
-            margin-top: 20px; 
-            display: flex;
-            gap: 10px;
-            justify-content: flex-start;
-        }
-        
-        .btn {
-            background-color: #333; 
-            color: white; 
-            padding: 10px 20px; 
-            text-decoration: none; 
-            border-radius: 4px; /* Slightly squarer for left-align theme */
-            font-weight: 500; 
-            font-size: 0.9em;
-            transition: background 0.3s;
-        }
-        .btn:hover { background-color: #555; }
-
-        #video_selector {
-            margin-top: 10px;
-            display: flex;
-            gap: 15px;
-            /* center-align video selector buttons */
-            justify-content: center;
-        }
-        #video_selector .btn {
-            background-color: #eee; 
-            color: #333; 
-            padding: 8px 16px; 
-            font-size: 0.9em;
-        }
-        #video_selector .btn:hover {
-            background-color: #ccc;
-        }
-        #video_selector .btn.active {
-            background-color: #333; 
-            color: white;
-        }
-        #video_selector .btn.active:hover {
-            background-color: #555; 
-            color: white;
-        }
-
-        .rl_item {
-            border: 1px solid #555;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            padding: 15px;
-            font-size: 0.95em;
-        }
-        .rl_item h3 {
-            margin-top: 0;
-            margin-left: 0px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .rl_item h3 code {
-            background-color: transparent;
-            padding: 0;
-            font-weight: bold;
-        }
-
-        /* Media & Captions */
-        .teaser-video { 
-            width: 100%; 
-            height: 400px; 
-            background: #000; 
-            border-radius: 4px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: white; 
-            margin-bottom: 10px; 
-        }
-        
-        .abstract { 
-            background-color: #f9f9f9; 
-            padding: 25px; 
-            border-radius: 4px; 
-            border-left: 5px solid #333; 
-            text-align: left;
-        }
-        
-        .grid-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-            margin-top: 20px; 
-        }
-
-        .media {
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 4px; 
-            color: #666; 
-        }
-        
-        .media-placeholder { 
-            background-color: #eee; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 4px; 
-            color: #666; 
-            font-weight: bold; 
-            border: 1px solid #ddd; 
-        }
-        
-        .figure-caption { 
-            text-align: left; /* Left aligned captions */
-            font-size: 0.9em; 
-            color: #555; 
-            margin-top: 8px; 
-            font-style: italic; 
-            display: block;
-        }
-
-        .bibtex { 
-            background-color: #f4f4f4; 
-            padding: 15px; 
-            border-radius: 4px; 
-            font-family: monospace; 
-            white-space: pre-wrap; 
-            font-size: 1em; 
-            overflow-x: auto; 
-            text-align: left;
-        }
-
-        /* Footer */
-        footer { 
-            margin-top: 60px; 
-            padding-top: 20px; 
-            border-top: 1px solid #eaeaea; 
-            text-align: left; 
-            font-size: 0.9em; 
-            color: #888; 
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            header { flex-direction: column; gap: 20px; }
-            .logo-container { margin-bottom: 10px; }
-            /* On mobile, we might still want left align, or center. Keeping left for consistency. */
-        }
-    </style>
-
     <script>
         window.MathJax = {
             tex: {
@@ -320,34 +71,27 @@
             <div class="authors">
                 <a href="https://janginkyu.github.io/">Inkyu Jang*<sup>1</sup></a>,
                 <a href="https://jonghaepark.github.io/">Jonghae Park*<sup>1</sup></a>,
-                Sihyun Cho<sup>2</sup>,
-                Chams E. Mballo<sup>3</sup>,
-                <a href="https://people.eecs.berkeley.edu/~tomlin/">Claire J. Tomlin<sup>3</sup></a>,
+                Sihyun Cho<sup>1</sup>,
+                Chams E. Mballo<sup>2</sup>,
+                <a href="https://people.eecs.berkeley.edu/~tomlin/">Claire J. Tomlin<sup>2</sup></a>,
                 and H. Jin Kim<sup>1</sup>
             </div>
 
             <div class="affiliations">
-                <sup>1</sup> Department of Aerospace Engineering, Seoul National University <br>
-                <sup>2</sup> Interdisciplinary Program in Artificial Intelligence, Seoul National University <br>
-                <sup>3</sup> Electrical Engineering and Computer Sciences, University of California, Berkeley <br>
+                <sup>1</sup> Seoul National University &nbsp;&nbsp;
+                <sup>2</sup> UC Berkeley<br>
                 <span style="color: #888; font-size: 0.9em;">* Equal Contribution</span>
             </div>
 
             <div class="venue"><i>Under Review</i></div>
 
             <div class="links">
-                <a href="/files/eigensafe-paper.pdf" class="btn"><i class="fas fa-file-pdf"></i> Paper</a>
+                <!-- <a href="/files/eigensafe-paper.pdf" class="btn"><i class="fas fa-file-pdf"></i> Paper</a> -->
                 <a href="https://arxiv.org/abs/2509.17750" class="btn"><i class="ai ai-arxiv"></i> arXiv</a>
-                <a href="#" class="btn"><i class="fab fa-github"></i> Code (GitHub)</a>
+                <a href="" class="btn"><i class="fab fa-github"></i> Code</a>
             </div>
         </div>
     </header>
-
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
-
-    <section>
-        <p>Note: This website is still under construction. Please come back in a few weeks to see the full result!</p>
-    </section>
 
     <section>
         <h2>Summary</h2>
@@ -422,66 +166,190 @@
         </p>
 
         <p>
-            We compare with three baselines: (1) <a href="https://arxiv.org/abs/1801.01290"><em>Vanilla SAC (Haarnoja et al., ICML 2018)</em></a> where the agent optimizes reward without any safety consideration, (2) <a href="https://arxiv.org/abs/2309.13528"><em>RESPO (Ganai et al., NeurIPS 2023)</em></a> which uses a reachability value function and Lagrange multipliers, and (3) <a href="https://arxiv.org/abs/2305.14154"><em>EFPPO (So et al., RSS 2023)</em></a> which reformulates the safe RL problem into an epigraph form.
+            We compare with three baselines: <br>
+            (1) <a href="https://arxiv.org/abs/1801.01290"><em>Vanilla SAC (Haarnoja et al., ICML 2018)</em></a>, where the agent optimizes reward without any safety consideration; <br>
+            (2) <a href="https://arxiv.org/abs/2309.13528"><em>RESPO (Ganai et al., NeurIPS 2023)</em></a>, which uses a reachability value function and Lagrange multipliers; and <br>
+            (3) <a href="https://arxiv.org/abs/2305.14154"><em>EFPPO (So et al., RSS 2023)</em></a>, which reformulates the safe RL problem into an epigraph form.
             </ol>
         </p>
-
-        <div class="grid-container" id="rl_videos">
-            <div class="rl_item" id="cheetahlow">
-                <h3><code>CheetahLow</code></h3>
-                <p>
-                    The <code>CheetahLow</code> environment is a modified version of the standard <a href="https://gymnasium.farama.org/environments/mujoco/half_cheetah/"><code>HalfCheetah</code></a> environment where the agent receives reward based on its forward velocity only. The safety constraint is defined as maintaining the height of the tors obelow a certain threshold.
-                <div class="media">
-                    <video width="100%" height="auto" nocontrols autoplay loop muted>
-                        <source src="/files/cheetah_low.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <span class="figure-caption">
-                    <strong>Video.</strong> HopperHigh environment. The red line indicates the unsafe region.
-                </span>
-            </div>
-            <div class="rl_item" id="hopperhigh">
-                <div class="media">
-                    <video width="100%" height="auto" nocontrols autoplay loop muted>
-                        <source src="/files/ant_ball.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <span class="figure-caption">
-                    <strong>Video.</strong> AntBall environment. The red ball is the target, and the blue ball is the unsafe region.
-                </span>
-            </div>
-            <div class="rl_item" id="lunarlanderhard">
-                <div class="media">
-                    <video width="100%" height="auto" nocontrols autoplay loop muted>
-                        <source src="/files/lunar_lander.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <span class="figure-caption">
-                    <strong>Video.</strong> <code>LunarLanderHard</code> environment. The red line indicates the unsafe region.
-                </span>
-            </div>
-            <div class="rl_item" id="antball">
-                <div class="media">
-                    <video width="100%" height="auto" nocontrols autoplay loop muted>
-                        <source src="/files/ant_ball.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <span class="figure-caption">
-                    <strong>Video.</strong> <code>LunarLanderHard</code> environment. The red line indicates the unsafe region.
-                </span>
-            </div>
-        </div>
-
 
         <div id="video_selector">
             <button class="btn" id="cheetahlow-btn" onclick="showVideo('cheetahlow')"><code>CheetahLow</code></button>
             <button class="btn" id="hopperhigh-btn" onclick="showVideo('hopperhigh')"><code>HopperHigh</code></button>
             <button class="btn" id="lunarlanderhard-btn" onclick="showVideo('lunarlanderhard')"><code>LunarLanderHard</code></button>
             <button class="btn" id="antball-btn" onclick="showVideo('antball')"><code>AntBall</code></button>
+        </div>
+
+        <div id="rl_videos">
+            <div class="rl_item" id="cheetahlow">
+                <h3><code>CheetahLow</code></h3>
+                <p>
+                    The <code>CheetahLow</code> environment is a modified version of the standard <a href="https://gymnasium.farama.org/environments/mujoco/half_cheetah/"><code>HalfCheetah</code></a> environment. The agent receives reward based on its forward velocity only, and the safety constraint is defined as maintaining the height of the torso below a certain threshold.
+                </p>
+                <p>
+                    Constraint satisfaction is indicated by the color of the floating ball.
+                </p>
+                <div class="videos_array">
+                    <div class="vline_right">
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/cheetahlow/eigensafe.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption"><strong>EigenSafe<br>(Proposed method)</strong></span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/cheetahlow/sac.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(1) Vanilla SAC<br>(Haarnoja et al., 2018)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/cheetahlow/respo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(2) RESPO<br>(Ganai et al., 2023)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/cheetahlow/efppo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(3) EFPPO<br>(So et al., 2023)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rl_item" id="hopperhigh">
+                <h3><code>HopperHigh</code></h3>
+                <p>
+                    The <code>HopperHigh</code> environment is a modified version of the standard <a href="https://gymnasium.farama.org/environments/mujoco/hopper/"><code>Hopper</code></a> environment. The agent receives reward based on its forward velocity only, and the constraint is to maintain the height of the torso above a certain threshold.
+                </p>
+                <p>
+                    Constraint satisfaction is indicated by the color of the floating ball.
+                </p>
+                <div class="videos_array">
+                    <div class="vline_right">
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/hopperhigh/eigensafe.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption"><strong>EigenSafe<br>(Proposed method)</strong></span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/hopperhigh/sac.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(1) Vanilla SAC<br>(Haarnoja et al., 2018)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/hopperhigh/respo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(2) RESPO<br>(Ganai et al., 2023)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/hopperhigh/efppo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(3) EFPPO<br>(So et al., 2023)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rl_item" id="lunarlanderhard">
+                <h3><code>LunarLanderHard</code></h3>
+                <p>
+                    The <code>LunarLanderHard</code> environment is a more challenging variant of the standard <a href="https://gymnasium.farama.org/environments/box2d/lunar_lander/"><code>LunarLander</code></a> environment, with diversified initial reset states. The reward is given only for successful landing, and the safety constraints are imposed on landing velocity, body orientation, and horizontal position.
+                </p>
+                <p>
+                    Constraint satisfaction is indicated by the color of video frame.
+                </p>
+                <div class="videos_array">
+                    <div class="vline_right">
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/lunarlanderhard/eigensafe.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption"><strong>EigenSafe<br>(Proposed method)</strong></span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/lunarlanderhard/sac.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(1) Vanilla SAC<br>(Haarnoja et al., 2018)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/lunarlanderhard/respo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(2) RESPO<br>(Ganai et al., 2023)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/lunarlanderhard/efppo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(3) EFPPO<br>(So et al., 2023)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rl_item" id="antball">
+                <h3><code>AntBall</code></h3>
+                <p>
+                    The <code>AntBall</code> environment is a modified version of the standard MuJoCo <a href="https://gymnasium.farama.org/environments/mujoco/ant/"><code>Ant</code></a> environment. The agent receives reward based on its forward velocity only, and the safety constraint is to not drop the ball from the plate attached on the torso.
+                </p>
+                <p>
+                    Constraint satisfaction is indicated by the color of the floating ball.
+                </p>
+                <div class="videos_array">
+                    <div class="vline_right">
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/antball/eigensafe.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption"><strong>EigenSafe<br>(Proposed method)</strong></span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/antball/sac.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(1) Vanilla SAC<br>(Haarnoja et al., 2018)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/antball/respo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(2) RESPO<br>(Ganai et al., 2023)</span>
+                    </div>
+                    <div>
+                        <video width="100%" height="auto" nocontrols autoplay loop muted>
+                            <source src="/files/antball/efppo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="figure-subcaption">(3) EFPPO<br>(So et al., 2023)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            The proposed method consistently achieves higher reward with better constraint satisfaction across all environments, compared to the baselines.
+        </p>
+
+        <div>
+            <div class="media">
+                <img src="/files/rl_comparison_web.svg" style="width: 100%; height: auto;">
+            </div>
+            <span class="figure-caption">
+                <strong>Figure.</strong> Baseline comparison results for safe RL using EigenSafe. The horizontal axis denotes the number of timesteps taken until a safety failure or the agent has reached the maximum episode length, and the vertical axis denotes the total undiscounted episode reward. The error bars denote minimum, average, and maximum values over four random seeds. Gray vertical bars denote the maximum episode length.
+            </span>
         </div>
 
     </section>
@@ -533,7 +401,7 @@
     <section>
         <h2>Abstract</h2>
         <div class="abstract">
-            We present <strong>EigenSafe</strong>, an operator-theoretic framework for safety assessment of learning-enabled stochastic systems. In many robotic applications, the dynamics are inherently stochastic due to factors such as sensing noise and environmental disturbances, and  it is challenging for conventional methods such as Hamilton-Jacobi reachability and control barrier functions to provide a well-calibrated safety critic that is tied to the actual safety probability. We derive a linear operator that governs the dynamic programming principle for safety probability, and find that its dominant eigenpair provides critical safety information for both individual state-action pairs and the overall closed-loop system. The proposed framework learns this dominant eigenpair, which can be used to either inform or constrain policy updates. We demonstrate that the learned eigenpair effectively facilitates safe reinforcement learning. Further, we validate its applicability in enhancing the safety of learned policies from imitation learning through robot manipulation experiments using a UR3 robotic arm in a food preparation task.
+            We present <em>EigenSafe</em>, an operator-theoretic framework for safety assessment of learning-enabled stochastic systems. In many robotic applications, the dynamics are inherently stochastic due to factors such as sensing noise and environmental disturbances, and  it is challenging for conventional methods such as Hamilton-Jacobi reachability and control barrier functions to provide a well-calibrated safety critic that is tied to the actual safety probability. We derive a linear operator that governs the dynamic programming principle for safety probability, and find that its dominant eigenpair provides critical safety information for both individual state-action pairs and the overall closed-loop system. The proposed framework learns this dominant eigenpair, which can be used to either inform or constrain policy updates. We demonstrate that the learned eigenpair effectively facilitates safe reinforcement learning. Further, we validate its applicability in enhancing the safety of learned policies from imitation learning through robot manipulation experiments using a UR3 robotic arm in a food preparation task.
         </div>
     </section>
 
@@ -546,94 +414,6 @@
   year={2026}
 }</div>
     </section>
-
-<!-- 
-    <section>
-        <div class="teaser-video">
-            [VIDEO PLACEHOLDER: UR3 Robot Split Screen]
-        </div>
-        <span class="figure-caption">
-            <strong>Figure 1:</strong> Real-world food preparation task using a UR3 robotic arm. EigenSafe acts as a safety filter, preventing the robot from spilling almonds or colliding.
-        </span>
-    </section> -->
-
-    <!-- <section>
-        <h2>The Spectral Framework</h2>
-        <p>
-            EigenSafe views safety probability evolution as a linear operator $T_\pi$. By analyzing the spectrum of this operator, we extract two key metrics:
-        </p>
-        <ul style="padding-left: 20px;">
-            <li><strong>Dominant Eigenvalue ($\gamma_\pi$):</strong> A global metric ($0 \le \gamma_\pi \le 1$) representing the decay rate of safety probability. Closer to 1 means safer.</li>
-            <li><strong>Dominant Eigenfunction ($\phi_\pi$):</strong> A state-dependent metric quantifying relative safety. Higher values indicate safer states.</li>
-        </ul>
-
-        <div class="grid-container">
-            <div>
-                <div class="media-placeholder" style="background: url('toy_example_placeholder.png') center/contain no-repeat #eee;">
-                    [Figure 1: Grid World]
-                </div>
-                <span class="figure-caption">
-                    Conceptual illustration. The slope of the safety probability decay converges to the dominant eigenvalue.
-                </span>
-            </div>
-            <div>
-                 <div class="media-placeholder" style="background: url('q_function_placeholder.png') center/contain no-repeat #eee;">
-                    [Figure 2: Safety Q-Function]
-                </div>
-                <span class="figure-caption">
-                    The eigenfunction $\psi_\pi$ acts as a "Safety Q-Function," assigning higher values to safer state-action pairs.
-                </span>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>Application 1: Safe Reinforcement Learning</h2>
-        <p>
-            We optimize a policy that maximizes reward subject to a spectral constraint on the eigenvalue ($\gamma_\pi \ge \gamma_{target}$), ensuring the policy remains safer than a specified threshold.
-        </p>
-        
-        <div class="grid-container">
-            <div>
-                <div class="media-placeholder">[VIDEO: HopperHigh]</div>
-                <span class="figure-caption">HopperHigh</span>
-            </div>
-            <div>
-                <div class="media-placeholder">[VIDEO: AntBall]</div>
-                <span class="figure-caption">AntBall</span>
-            </div>
-            <div>
-                <div class="media-placeholder">[VIDEO: LunarLander]</div>
-                <span class="figure-caption">LunarLanderHard</span>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px;">
-            <div class="media-placeholder" style="height: 350px;">
-                [Figure 4: RL Benchmark Results]
-            </div>
-            <span class="figure-caption">
-                Comparison against Vanilla SAC, RESPO, and EFPPO. EigenSafe (Blue) consistently achieves higher safety (right side of plots) while maintaining high rewards (top of plots).
-            </span>
-        </div>
-    </section>
-
-    <section>
-        <h2>Application 2: Safety-Filtered Imitation Learning</h2>
-        <p>
-            We apply EigenSafe to a stochastic Behavior Cloning policy on a UR3 robot. At test time, we sample multiple action candidates and select the one with the highest eigenfunction value (Safety Q-score).
-        </p>
-
-        <div style="margin-top: 20px;">
-            <div class="media-placeholder" style="height: 350px;">
-                [Figure 7: Eigenfunction Value Evolution]
-            </div>
-            <span class="figure-caption">
-                <strong>Predictive Safety:</strong> The eigenfunction value (blue line) drops significantly <em>before</em> the robot spills the almonds, allowing the filter to intervene and select a safer action.
-            </span>
-        </div>
-    </section> -->
-
     <footer>
         EigenSafe Project.
     </footer>
